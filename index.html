@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單字總表 — TOEIC Vocabulary</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #131009;
+  --ink-soft: #1c1810;
+  --ink-card: #211c12;
+  --ink-quote: #191509;
+  --line: #3a3222;
+  --line-soft: #2b2517;
+  --cream: #ede4cf;
+  --cream-dim: #b3a88e;
+  --cream-faint: #7d7460;
+  --amber: #e5b04c;
+  --amber-soft: #c99a45;
+  --blue: #8fb8e8;
+  --green: #a3c98a;
+  --red: #d98d7e;
+  --serif: "Fraunces", "Noto Sans TC", serif;
+  --sans: "Noto Sans TC", sans-serif;
+  --mono: "JetBrains Mono", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+/* grain */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 20px 12vh; }
+
+/* ── header ── */
+header { padding: 7vh 0 2.5rem; position: relative; }
+.eyebrow {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .35em;
+  color: var(--amber-soft); text-transform: uppercase; margin-bottom: .8rem;
+}
+h1 {
+  font-family: var(--serif); font-weight: 380; font-size: clamp(2.6rem, 7vw, 4.2rem);
+  line-height: 1.05; letter-spacing: -.01em;
+}
+h1 .zh { font-weight: 500; }
+h1 .amp { color: var(--amber); font-style: italic; font-weight: 300; }
+.tagline { margin-top: 1rem; color: var(--cream-dim); font-size: .92rem; font-weight: 300; }
+.tagline b { color: var(--amber); font-weight: 500; }
+
+/* ── search ── */
+.search-zone { position: sticky; top: 0; z-index: 10; background: linear-gradient(var(--ink) 82%, transparent); padding: .8rem 0 1.4rem; }
+.search-box { position: relative; }
+.search-box svg { position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; stroke: var(--cream-faint); pointer-events: none; }
+#q {
+  width: 100%; padding: 1rem 3rem 1rem 3rem;
+  background: var(--ink-soft); border: 1px solid var(--line); border-radius: 14px;
+  color: var(--cream); font-family: var(--sans); font-size: 1.05rem;
+  outline: none; transition: border-color .2s, box-shadow .2s;
+}
+#q::placeholder { color: var(--cream-faint); font-weight: 300; }
+#q:focus { border-color: var(--amber-soft); box-shadow: 0 0 0 3px rgba(229,176,76,.12); }
+#clear {
+  position: absolute; right: .7rem; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--cream-faint); font-size: 1.2rem;
+  cursor: pointer; padding: .3rem .5rem; display: none; line-height: 1;
+}
+#clear:hover { color: var(--cream); }
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .85rem; }
+.chip {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .05em;
+  padding: .28rem .75rem; border-radius: 999px; cursor: pointer; user-select: none;
+  border: 1px solid var(--line-soft); color: var(--cream-dim); background: transparent;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--amber-soft); color: var(--cream); }
+.chip.on { background: var(--amber); border-color: var(--amber); color: var(--ink); font-weight: 500; }
+.chip-sep { width: 1px; background: var(--line-soft); margin: .2rem .3rem; }
+.stats { font-family: var(--mono); font-size: .72rem; color: var(--cream-faint); margin-top: .8rem; letter-spacing: .06em; }
+.stats b { color: var(--amber-soft); font-weight: 500; }
+
+/* ── list ── */
+#list { display: flex; flex-direction: column; gap: .55rem; }
+.entry {
+  border: 1px solid var(--line-soft); border-radius: 14px; background: var(--ink-soft);
+  overflow: hidden; transition: border-color .2s;
+}
+.entry:hover { border-color: var(--line); }
+.entry.open { border-color: var(--amber-soft); background: var(--ink-card); }
+.entry-head {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  padding: .95rem 1.2rem; cursor: pointer;
+}
+.entry-head .en {
+  font-family: var(--serif); font-size: 1.45rem; font-weight: 450; color: var(--blue);
+  letter-spacing: .01em; line-height: 1.2;
+}
+.entry.open .entry-head .en { color: var(--amber); }
+.entry-head .kk { font-family: var(--mono); font-size: .78rem; color: var(--amber-soft); }
+.entry-head .zh { font-size: .95rem; color: var(--cream-dim); font-weight: 300; margin-left: auto; text-align: right; }
+.entry-head .lv {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+  border: 1px solid var(--line); border-radius: 5px; padding: .1rem .4rem;
+  color: var(--cream-faint); white-space: nowrap; align-self: center;
+}
+.play {
+  background: none; border: 1px solid var(--line); border-radius: 50%;
+  width: 30px; height: 30px; flex: none; align-self: center;
+  color: var(--amber-soft); cursor: pointer; font-size: .7rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.play:hover { border-color: var(--amber); color: var(--amber); transform: scale(1.08); }
+.play.playing { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+
+/* ── card detail (Anki field HTML) ── */
+.detail { display: none; padding: 0 1.2rem 1.3rem; }
+.entry.open .detail { display: block; animation: reveal .25s ease; }
+@keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.fieldbox { border-top: 1px solid var(--line-soft); padding: 1rem 0 .2rem; }
+.fieldbox > .flabel {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--amber-soft); margin-bottom: .5rem;
+}
+.fhtml { font-size: .92rem; font-weight: 300; color: var(--cream); }
+.fhtml h3 {
+  font-family: var(--sans); font-size: .95rem; font-weight: 500; color: var(--green);
+  margin: .9rem 0 .35rem;
+}
+.fhtml h3:first-child { margin-top: 0; }
+.fhtml ul { padding-left: 1.25rem; margin: .2rem 0 .6rem; }
+.fhtml li { margin: .25rem 0; }
+.fhtml li::marker { color: var(--amber-soft); }
+.fhtml blockquote {
+  background: var(--ink-quote); border-left: 3px solid var(--amber-soft);
+  border-radius: 0 8px 8px 0; padding: .6rem .9rem; margin: .45rem 0 .7rem;
+  font-size: .9rem;
+}
+.fhtml b { color: var(--amber); font-weight: 500; }
+.fhtml blockquote b { color: var(--cream); font-weight: 500; }
+.fhtml blockquote div b:first-child { color: var(--amber); }
+.fhtml i { color: var(--blue); }
+.fhtml code { font-family: var(--mono); font-size: .82em; color: var(--amber); background: var(--ink-quote); padding: .05em .35em; border-radius: 4px; }
+.fhtml .kkline { font-family: var(--mono); color: var(--amber); }
+
+/* empty state */
+#empty { display: none; text-align: center; padding: 5rem 0; color: var(--cream-faint); }
+#empty .big { font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--cream-dim); margin-bottom: .5rem; }
+
+footer { margin-top: 4rem; text-align: center; font-family: var(--mono); font-size: .68rem; letter-spacing: .15em; color: var(--cream-faint); }
+footer b { color: var(--amber-soft); font-weight: 500; }
+
+@media (max-width: 600px) {
+  .entry-head { padding: .8rem .95rem; gap: .6rem; }
+  .entry-head .en { font-size: 1.25rem; }
+  .entry-head .zh { flex-basis: 100%; margin-left: 0; text-align: left; order: 5; margin-top: -.2rem; }
+  .detail { padding: 0 .95rem 1.1rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Personal TOEIC Lexicon</div>
+  <h1><span class="zh">單字總表</span> <span class="amp">&amp;</span> Vocabulary</h1>
+  <div class="tagline">Anki TOEIC 牌組鏡像 — 共 <b id="total">…</b> 字 · 更新於 <b id="gen">…</b> · 點詞條展開完整卡片 · <kbd style="font-family:var(--mono);font-size:.8em;border:1px solid var(--line);border-radius:4px;padding:0 .35em;">/</kbd> 聚焦搜尋</div>
+</header>
+
+<div class="search-zone">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="搜尋英文、中文、字根、搭配、例句…" autocomplete="off" autofocus>
+    <button id="clear" title="清除">×</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="stats">顯示 <b id="shown">0</b> / <span id="all">0</span></div>
+</div>
+
+<div id="list"></div>
+<div id="empty"><div class="big">Nothing found.</div><div>換個關鍵字，或清掉篩選晶片試試</div></div>
+
+<footer>Mirrored from <b>Anki · TOEIC deck</b> — generated by /toeic</footer>
+
+</div>
+
+<script>
+let DATA = [], activeLv = null, activeParts = new Set();
+const $ = (id) => document.getElementById(id);
+const FIELD_ORDER = [
+  ['pos', '詞性'], ['pronun', '發音說明'], ['etym', '字根解說'],
+  ['ex', '例句'], ['coll', '常用搭配'], ['syn', '同義字反義'], ['ctx', '多益情境'],
+];
+
+fetch('data.json').then(r => r.json()).then(d => {
+  DATA = d.cards;
+  $('total').textContent = d.count;
+  $('all').textContent = d.count;
+  $('gen').textContent = d.generated;
+  buildChips();
+  render();
+});
+
+function buildChips() {
+  const levels = [...new Set(DATA.map(c => c.level).filter(Boolean))].sort();
+  const parts = [...new Set(DATA.flatMap(c => c.parts))].sort();
+  const box = $('chips');
+  levels.forEach(lv => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.textContent = lv; b.dataset.lv = lv;
+    b.onclick = () => { activeLv = activeLv === lv ? null : lv; syncChips(); render(); };
+    box.appendChild(b);
+  });
+  const sep = document.createElement('div'); sep.className = 'chip-sep'; box.appendChild(sep);
+  parts.forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.textContent = 'Part ' + p; b.dataset.part = p;
+    b.onclick = () => { activeParts.has(p) ? activeParts.delete(p) : activeParts.add(p); syncChips(); render(); };
+    box.appendChild(b);
+  });
+}
+function syncChips() {
+  document.querySelectorAll('.chip').forEach(c => {
+    if (c.dataset.lv) c.classList.toggle('on', c.dataset.lv === activeLv);
+    if (c.dataset.part) c.classList.toggle('on', activeParts.has(c.dataset.part));
+  });
+}
+
+function filtered() {
+  const q = $('q').value.trim().toLowerCase();
+  const toks = q.split(/\s+/).filter(Boolean);
+  let rows = DATA.filter(c => {
+    if (activeLv && c.level !== activeLv) return false;
+    if (activeParts.size && !c.parts.some(p => activeParts.has(p))) return false;
+    return toks.every(t => c.search.includes(t));
+  });
+  if (toks.length) {
+    const score = (c) => {
+      const en = c.en.toLowerCase();
+      if (en === q) return 0;
+      if (en.startsWith(q)) return 1;
+      if (toks.some(t => en.includes(t))) return 2;
+      if (toks.some(t => c.zh.includes(t))) return 3;
+      return 4;
+    };
+    rows = rows.map(c => [score(c), c]).sort((a, b) => a[0] - b[0] || a[1].en.localeCompare(b[1].en)).map(x => x[1]);
+  }
+  return rows;
+}
+
+function render() {
+  const rows = filtered();
+  $('shown').textContent = rows.length;
+  $('empty').style.display = rows.length ? 'none' : 'block';
+  $('clear').style.display = $('q').value ? 'block' : 'none';
+  const list = $('list');
+  list.innerHTML = '';
+  rows.forEach(c => {
+    const e = document.createElement('article');
+    e.className = 'entry';
+    const head = document.createElement('div');
+    head.className = 'entry-head';
+    head.innerHTML =
+      (c.audio ? `<button class="play" title="播放發音">▶</button>` : '') +
+      `<span class="en">${esc(c.en)}</span>` +
+      (c.kk ? `<span class="kk">${esc(c.kk)}</span>` : '') +
+      `<span class="zh">${esc(c.zh)}</span>` +
+      (c.level ? `<span class="lv">${c.level}</span>` : '');
+    head.onclick = (ev) => {
+      if (ev.target.closest('.play')) { play(c, ev.target.closest('.play')); return; }
+      if (e.classList.contains('open')) { e.classList.remove('open'); return; }
+      if (!e.querySelector('.detail')) e.appendChild(detail(c));
+      e.classList.add('open');
+    };
+    e.appendChild(head);
+    list.appendChild(e);
+  });
+}
+
+function detail(c) {
+  const d = document.createElement('div');
+  d.className = 'detail';
+  FIELD_ORDER.forEach(([key, label]) => {
+    if (!c[key] || !c[key].trim()) return;
+    const box = document.createElement('div');
+    box.className = 'fieldbox';
+    box.innerHTML = `<div class="flabel">${label}</div><div class="fhtml">${c[key]}</div>`;
+    d.appendChild(box);
+  });
+  return d;
+}
+
+let currentAudio = null;
+function play(c, btn) {
+  if (currentAudio) { currentAudio.pause(); document.querySelectorAll('.play.playing').forEach(b => { b.classList.remove('playing'); b.textContent = '▶'; }); }
+  currentAudio = new Audio('audio/' + c.audio);
+  btn.classList.add('playing'); btn.textContent = '◼';
+  currentAudio.onended = currentAudio.onerror = () => { btn.classList.remove('playing'); btn.textContent = '▶'; };
+  currentAudio.play();
+}
+
+const esc = (s) => s.replace(/[&<>"]/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+let deb;
+$('q').addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(render, 60); });
+$('clear').onclick = () => { $('q').value = ''; render(); $('q').focus(); };
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && document.activeElement !== $('q')) { e.preventDefault(); $('q').focus(); $('q').select(); }
+  if (e.key === 'Escape' && document.activeElement === $('q')) { $('q').value = ''; render(); }
+});
+</script>
+</body>
+</html>
