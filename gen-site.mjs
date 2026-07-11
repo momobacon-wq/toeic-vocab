@@ -10,7 +10,8 @@ const AUDIO_SRC = join(process.env.APPDATA, 'Anki2', '使用者 1', 'collection.
 const AUDIO_DST = join(ROOT, 'audio');
 mkdirSync(AUDIO_DST, { recursive: true });
 
-const notes = JSON.parse(readFileSync(DUMP, 'utf8'));
+// Windows PowerShell 5.1 的 Out-File -Encoding UTF8 會帶 BOM，先剝掉
+const notes = JSON.parse(readFileSync(DUMP, 'utf8').replace(/^﻿/, ''));
 
 const stripHtml = (h) => (h || '')
   .replace(/<[^>]+>/g, ' ')

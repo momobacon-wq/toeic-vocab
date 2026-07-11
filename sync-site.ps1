@@ -10,6 +10,7 @@ $n = Invoke-RestMethod -Uri http://127.0.0.1:8765 -Method Post -Body $b2 -Conten
 $n.result | ConvertTo-Json -Depth 8 | Out-File "$PSScriptRoot\notes_dump.json" -Encoding UTF8
 
 node "$PSScriptRoot\gen-site.mjs"
+if ($LASTEXITCODE -ne 0) { throw "gen-site.mjs failed (exit $LASTEXITCODE) — data.json NOT regenerated" }
 
 git add -A
 $status = git status --porcelain
