@@ -204,7 +204,7 @@ const FIELD_ORDER = [
   ['ex', '例句'], ['coll', '常用搭配'], ['syn', '同義字反義'], ['ctx', '多益情境'],
 ];
 
-fetch('data.json').then(r => r.json()).then(d => {
+fetch('data.json', {cache: 'no-cache'}).then(r => r.json()).then(d => {
   DATA = d.cards;
   $('total').textContent = d.count;
   $('all').textContent = d.count;
